@@ -9,7 +9,7 @@ When a player runs out of money they leave the game and the winner is the last p
 
 ------
 
-This project will eventually cover the Shopopoly challenges [8](https://coding-challenges.jl-engineering.net/challenges/challenge-8/), [9](https://coding-challenges.jl-engineering.net/challenges/challenge-9/) and [12](https://coding-challenges.jl-engineering.net/challenges/challenge-12/) (and possibly number [10](https://coding-challenges.jl-engineering.net/challenges/challenge-10/), the solution to which can currently be found separately [here](https://github.com/mattTea/Shopopoly-Challenge10).
+This project will eventually cover the Shopopoly challenges [8](https://coding-challenges.jl-engineering.net/challenges/challenge-8/), [9](https://coding-challenges.jl-engineering.net/challenges/challenge-9/) and [12](https://coding-challenges.jl-engineering.net/challenges/challenge-12/) (and possibly number [10](https://coding-challenges.jl-engineering.net/challenges/challenge-10/), the solution to which can currently be found separately [here](https://github.com/mattTea/Shopopoly-Challenge10)).
 
 ------
 
