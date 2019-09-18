@@ -7,14 +7,18 @@ import org.spekframework.spek2.style.specification.describe
 
 object FulfilmentSiteTest : Spek ({
     describe("FulfilmentSite location type") {
-        val fulfilmentSite = FulfilmentSite()
+        val factory = FulfilmentSite("factory")
 
         it("should cost £20 to visit") {
-            assertThat(fulfilmentSite.feeOrAward).isEqualTo(-20)
+            assertThat(factory.feeOrAward).isEqualTo(-20)
         }
 
         it("should cost £100 to purchase") {
-            assertThat(fulfilmentSite.purchasePrice).isEqualTo(-100)
+            assertThat(factory.purchasePrice).isEqualTo(-100)
+        }
+
+        it("should have a name of 'factory'") {
+            assertThat(factory.name).isEqualTo("factory")
         }
     }
 })
