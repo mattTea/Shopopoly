@@ -1,5 +1,5 @@
 package shopopoly
 
-internal object FreeParking {
-    const val fee: Int = 0
+internal class FreeParking {
+    val feeOrAward: Int = 0
 }

@@ -7,9 +7,10 @@ import org.spekframework.spek2.style.specification.describe
 
 object FreeParkingTest : Spek({
 
-    describe("FreeParking") {
+    describe("FreeParking location type") {
         it("should be free to visit") {
-            assertThat(FreeParking.fee).isEqualTo(0)
+            val freeParking = FreeParking()
+            assertThat(freeParking.feeOrAward).isEqualTo(0)
         }
     }
 })
