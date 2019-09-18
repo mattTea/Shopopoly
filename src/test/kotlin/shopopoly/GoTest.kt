@@ -11,7 +11,7 @@ object GoTest : Spek({
         // TODO amend to test behaviour (not state) when a player is introduced
         it("should award visitors £100") {
             val go = Go()
-            assertThat(go.feeOrAward).isEqualTo(100)
+            assertThat(go.visitorFeeOrAward).isEqualTo(100)
         }
     }
 })

@@ -10,7 +10,7 @@ object FreeParkingTest : Spek({
     describe("FreeParking location type") {
         it("should be free to visit") {
             val freeParking = FreeParking()
-            assertThat(freeParking.feeOrAward).isEqualTo(0)
+            assertThat(freeParking.visitorFeeOrAward).isEqualTo(0)
         }
     }
 })

@@ -1,5 +1,5 @@
 package shopopoly
 
 internal class Go {
-    val feeOrAward: Int = 100
+    val visitorFeeOrAward: Int = 100
 }
