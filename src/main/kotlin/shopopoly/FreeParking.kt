@@ -1,5 +1,5 @@
 package shopopoly
 
-internal class FreeParking {
-    val visitorFeeOrAward: Int = 0
+internal class FreeParking : Location() {
+    override val visitorFeeOrAward: Int = 0
 }
