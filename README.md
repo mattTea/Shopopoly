@@ -37,3 +37,56 @@ Design the data types that represent each `Location` on the board. These may be.
     - Each retail site (with an owner) will charge different amounts to visitors (who aren't the owner)
     - The rent at each site is different depending on whether the site is undeveloped, contains a ministore, a supermarket or a megastore
     - Each retail site belongs to a group which can contain either two or three retail sites.
+    
+------
+
+## Challenge 9 - Shopopoly pt.2
+
+Create a GameLedger which will hold a record of all financial transactions in the game
+
+1. How much money each player has
+
+1. Who owns each location
+
+1. Whether any location has been developed to add a ministore, a supermarket or a megastore
+
+
+There will be a single instance of GameLedger that will be initialised at the start of each game.
+
+------
+
+Create the following functions that add transactions to the GameLedger...
+
+- Amount transferred from the `Bank` to a `Player`. This is the starting balance for each player in the game.
+
+- Bank paying a fee to a `Player`, e.g. when the player passes through the `Go` location.
+
+- Rent being paid from one player to another, e.g. when a player lands on a `RetailSite` location owned by another player.
+
+- `Player` paying the `Bank` to purchase a `Location`.
+
+- `Player` paying the `Bank` for building a specific type of building on a `Location`. Types of building include ministore, supermarket or megastore.
+
+------
+
+#### Assume the following about GameLedger
+
+- All data is stored in memory - you don’t have to keep data in a file or database system.
+
+- In a later challenge you will be asked to create functions to query the `GameLedger`.
+
+- You will need to know the sequence that transactions were added to `GameLedger` in order to query it accurately in some cases.
+
+- `GameLedger` just does what it is told. It does not know whether a request is valid, e.g. it doesn’t know whether a player is purchasing a location that someone else has already purchased.
+
+- `GameLedger` is likely to need to hold different types of transactions as Shopopoly evolves.
+
+- Any monetary values are whole positive values of GBP sterling.
+
+- You don’t need to worry about concurrency.
+
+------
+
+For `Players` create a simple type that contains a property that uniquely identify each instance of a player.
+
+------
