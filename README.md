@@ -42,7 +42,7 @@ Design the data types that represent each `Location` on the board. These may be.
 
 ## Challenge 9 - Shopopoly pt.2
 
-Create a GameLedger which will hold a record of all financial transactions in the game
+Create a `GameLedger` which will hold a record of all financial transactions in the game
 
 1. How much money each player has
 
@@ -51,11 +51,11 @@ Create a GameLedger which will hold a record of all financial transactions in th
 1. Whether any location has been developed to add a ministore, a supermarket or a megastore
 
 
-There will be a single instance of GameLedger that will be initialised at the start of each game.
+There will be a single instance of `GameLedger` that will be initialised at the start of each game.
 
 ------
 
-Create the following functions that add transactions to the GameLedger...
+Create the following functions that add transactions to the `GameLedger`...
 
 - Amount transferred from the `Bank` to a `Player`. This is the starting balance for each player in the game.
 
