@@ -1,5 +1,5 @@
 package shopopoly
 
-internal class Go {
-    val visitorFeeOrAward: Int = 100
+internal class Go : Location() {
+    override val visitorFeeOrAward: Int = 100
 }
