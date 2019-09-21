@@ -21,12 +21,12 @@ internal class GameLedger {
         ))
     }
 
-    fun payRent(location: Location, locationOwner: Player, rentPayer: Player) {
+    fun payVisitorFee(location: Location, locationOwner: Player, rentPayer: Player) {
         entries.add(Entry(
             amount = location.visitorFeeOrAward,
             from = rentPayer.name,
             to = locationOwner.name, // owner could be a property of the location in future
-            reason = "Rent payment"
+            reason = "Visitor payment"
         ))
     }
 }
