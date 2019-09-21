@@ -10,16 +10,19 @@ import org.spekframework.spek2.style.specification.describe
 object GameLedgerTest : Spek({
     describe("transferStartingBalance()") {
         val gameLedger = GameLedger()
+        val startingBalance = 100
+
         val player = mockk<Player>()
         every { player.name } returns "Matt"
-        gameLedger.transferStartingBalance(100, player)
+
+        gameLedger.transferStartingBalance(startingBalance, player)
 
         it("should add an entry to GameLedger") {
             assertThat(gameLedger.entries.size).isEqualTo(1)
         }
 
         it("should record transfer of £100 starting balance to player") {
-            assertThat(gameLedger.entries[0].amount).isEqualTo(100)
+            assertThat(gameLedger.entries[0].amount).isEqualTo(startingBalance)
             assertThat(gameLedger.entries[0].reason).isEqualTo("Starting balance transfer")
         }
 
@@ -31,11 +34,14 @@ object GameLedgerTest : Spek({
 
     describe("payAward()") {
         val gameLedger = GameLedger()
+        val awardAmount = 100
+
         val player = mockk<Player>()
         every { player.name } returns "Matt"
 
         val mockGoLocation = mockk<Go>()
-        every { mockGoLocation.visitorFeeOrAward } returns 100
+        every { mockGoLocation.visitorFeeOrAward } returns awardAmount
+
         gameLedger.payAward(mockGoLocation, player)
 
         it("should add entry to GameLedger") {
@@ -43,7 +49,7 @@ object GameLedgerTest : Spek({
         }
 
         it("should record award of £100 for passing Go") {
-            assertThat(gameLedger.entries[0].amount).isEqualTo(100)
+            assertThat(gameLedger.entries[0].amount).isEqualTo(awardAmount)
             assertThat(gameLedger.entries[0].reason).isEqualTo("Award fee")
         }
 
@@ -55,9 +61,10 @@ object GameLedgerTest : Spek({
 
     describe("payVisitorFee()") {
         val gameLedger = GameLedger()
+        val visitorFee = 35
 
         val mockWarehouse = mockk<FulfilmentSite>()
-        every { mockWarehouse.visitorFeeOrAward } returns 35
+        every { mockWarehouse.visitorFeeOrAward } returns visitorFee
 
         val playerPayingFee = mockk<Player>()
         every { playerPayingFee.name } returns "Karsten"
@@ -72,13 +79,41 @@ object GameLedgerTest : Spek({
         }
 
         it("should record payment of £35 visitor fee between players") {
-            assertThat(gameLedger.entries[0].amount).isEqualTo(35)
+            assertThat(gameLedger.entries[0].amount).isEqualTo(visitorFee)
             assertThat(gameLedger.entries[0].reason).isEqualTo("Visitor payment")
         }
 
         it("should record fee paid by 'Karsten' to 'Katie'") {
             assertThat(gameLedger.entries[0].from).isEqualTo(playerPayingFee.name)
             assertThat(gameLedger.entries[0].to).isEqualTo(playerReceivingFee.name)
+        }
+    }
+
+    // `Player` paying the `Bank` to purchase a `Location`
+    describe("buyLocation()") {
+        val gameLedger = GameLedger()
+        val purchasePrice = 200
+
+        val mockRetailSite = mockk<RetailSite>()
+        every { mockRetailSite.purchasePrice } returns purchasePrice
+
+        val buyer = mockk<Player>()
+        every { buyer.name } returns "Catherine"
+
+        gameLedger.buyLocation(mockRetailSite, buyer)
+
+        it("should add entry to GameLedger") {
+            assertThat(gameLedger.entries.size).isEqualTo(1)
+        }
+
+        it("should record payment of £200 purchase price from player") {
+            assertThat(gameLedger.entries[0].amount).isEqualTo(purchasePrice)
+            assertThat(gameLedger.entries[0].reason).isEqualTo("Location purchase")
+        }
+
+        it("should record fee paid by buyer to 'Bank'") {
+            assertThat(gameLedger.entries[0].from).isEqualTo(buyer.name)
+            assertThat(gameLedger.entries[0].to).isEqualTo("Bank")
         }
     }
 })

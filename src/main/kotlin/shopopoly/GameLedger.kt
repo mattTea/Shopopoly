@@ -29,11 +29,20 @@ internal class GameLedger {
             reason = "Visitor payment"
         ))
     }
+
+    fun buyLocation(location: Location, buyer: Player) {
+        entries.add(Entry(
+            amount = location.purchasePrice,
+            from = buyer.name,
+            to = "Bank",
+            reason = "Location purchase"
+        ))
+    }
 }
 
 internal class Entry(
     val amount: Int,
-    val from: String,
+    val from: String, // to and from to be Player class in future (if I change "Bank" to a similar class)
     val to: String,
     val reason: String
 )
