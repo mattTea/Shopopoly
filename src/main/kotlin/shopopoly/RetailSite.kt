@@ -12,8 +12,8 @@ class RetailSite(
 ) : Location()
 
 enum class Rent(val amount: Int) {
-    UNDEVELOPED(-10),
-    MINI_STORE(-20),
-    SUPERMARKET(-30),
-    MEGASTORE(-50)
+    UNDEVELOPED(10),
+    MINI_STORE(20),
+    SUPERMARKET(30),
+    MEGASTORE(50)
 }

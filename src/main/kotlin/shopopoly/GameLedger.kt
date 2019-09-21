@@ -5,7 +5,7 @@ internal class GameLedger {
 
     fun transferStartingBalance(amount: Int, player: Player) {
         entries.add(Entry(
-            amount = -amount,
+            amount = amount,
             from = "Bank",
             to = player.name,
             reason = "Starting balance transfer"
@@ -14,10 +14,19 @@ internal class GameLedger {
 
     fun payAward(location: Location, player: Player) {
         entries.add(Entry(
-            amount = -location.visitorFeeOrAward,
+            amount = location.visitorFeeOrAward,
             from = "Bank",
             to = player.name,
             reason = "Award fee"
+        ))
+    }
+
+    fun payRent(location: Location, locationOwner: Player, rentPayer: Player) {
+        entries.add(Entry(
+            amount = location.visitorFeeOrAward,
+            from = rentPayer.name,
+            to = locationOwner.name, // owner could be a property of the location in future
+            reason = "Rent payment"
         ))
     }
 }

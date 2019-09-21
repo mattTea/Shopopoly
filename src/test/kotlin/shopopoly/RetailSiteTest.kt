@@ -14,7 +14,7 @@ object RetailSiteTest : Spek({
             costToBuildMinistore = 50,
             costToBuildSupermarket = 100,
             costToBuildMegastore = 150,
-            visitorFeeOrAward = -25
+            visitorFeeOrAward = 25
         )
 
         it("should have a name of 'John's shop'") {
@@ -38,12 +38,12 @@ object RetailSiteTest : Spek({
         }
 
         it("should cost £25 to visit the site") {
-            assertThat(retailSite.visitorFeeOrAward).isEqualTo(-25)
+            assertThat(retailSite.visitorFeeOrAward).isEqualTo(25)
         }
 
         it("should cost £10 to rent the undeveloped site by default") {
             assertThat(retailSite.rent).isEqualTo(Rent.UNDEVELOPED)
-            assertThat(retailSite.rent.amount).isEqualTo(-10)
+            assertThat(retailSite.rent.amount).isEqualTo(10)
         }
 
         it("should be owned by 'Unattached' by default") {

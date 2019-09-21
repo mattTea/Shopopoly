@@ -10,11 +10,11 @@ object FulfilmentSiteTest : Spek ({
         val fulfilmentSite = FulfilmentSite("factory")
 
         it("should cost £20 to visit") {
-            assertThat(fulfilmentSite.visitorFeeOrAward).isEqualTo(-20)
+            assertThat(fulfilmentSite.visitorFeeOrAward).isEqualTo(20)
         }
 
         it("should cost £100 to purchase") {
-            assertThat(fulfilmentSite.purchasePrice).isEqualTo(-100)
+            assertThat(fulfilmentSite.purchasePrice).isEqualTo(100)
         }
 
         it("should have a name of 'factory'") {
