@@ -38,6 +38,15 @@ internal class GameLedger {
             reason = "Location purchase"
         ))
     }
+
+    fun payBuildingFee(location: Location, buildingType: Store, builder: Player) {
+        entries.add(Entry(
+            amount = location.calculateCostToBuild(buildingType),
+            from = builder.name,
+            to = "Bank",
+            reason = "Fee to build $buildingType on retail site"
+        ))
+    }
 }
 
 internal class Entry(

@@ -26,15 +26,15 @@ object RetailSiteTest : Spek({
         }
 
         it("should cost £50 to build a ministore") {
-            assertThat(retailSite.costToBuildMinistore).isEqualTo(50)
+            assertThat(retailSite.calculateCostToBuild(Store.MINISTORE)).isEqualTo(50)
         }
 
         it("should cost £100 to build a supermarket") {
-            assertThat(retailSite.costToBuildSupermarket).isEqualTo(100)
+            assertThat(retailSite.calculateCostToBuild(Store.SUPERMARKET)).isEqualTo(100)
         }
 
         it("should cost £150 to build a megastore") {
-            assertThat(retailSite.costToBuildMegastore).isEqualTo(150)
+            assertThat(retailSite.calculateCostToBuild(Store.MEGASTORE)).isEqualTo(150)
         }
 
         it("should cost £25 to visit the site") {
