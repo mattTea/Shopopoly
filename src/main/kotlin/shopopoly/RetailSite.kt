@@ -1,7 +1,7 @@
 package shopopoly
 
 class RetailSite(
-    val name: String,
+    override val name: String,
     override val purchasePrice: Int,
     override val costToBuildMinistore: Int,
     override val costToBuildSupermarket: Int,
@@ -19,6 +19,10 @@ class RetailSite(
             Store.SUPERMARKET -> costToBuildSupermarket
             else -> costToBuildMegastore
         }
+    }
+
+    override fun setStoreType(storeType: Store) {
+        this.store = storeType
     }
 }
 

@@ -120,13 +120,12 @@ object GameLedgerTest : Spek({
     describe("payBuildingFee()") {
         val gameLedger = GameLedger()
         val buildingFee = 125
+        val player = mockk<Player>()
 
         val retailSite = mockk<RetailSite>()
-        val mockMiniStore = mockk<Store>(relaxed = true)
+        val mockMiniStore = mockk<Store>()
         every { retailSite.calculateCostToBuild(mockMiniStore) } returns buildingFee
-
-        val player = mockk<Player>()
-        every { player.name } returns "Matt"
+        every { retailSite.setStoreType(mockMiniStore) } returns Unit
 
         gameLedger.payBuildingFee(retailSite, mockMiniStore, player)
 
@@ -208,6 +207,44 @@ object GameLedgerTest : Spek({
             it("should return player credit amount of 0") {
                 assertThat(gameLedger.calculatePlayerBalance(mockPlayer).amount).isEqualTo(0)
             }
+        }
+    }
+
+    describe("getPremisesOwnedBy()") {
+        it("should return empty list if player owns no locations") {
+            val gameLedger = GameLedger()
+            val mockPlayer = mockk<Player>()
+
+            assertThat(gameLedger.getPremisesOwnedBy(mockPlayer)).isEqualTo(emptyList<Location>())
+        }
+
+        it("should return list of single Location owned by player") {
+            val gameLedger = GameLedger()
+            val mockPlayer = mockk<Player>()
+            val mockFulfilmentSite = mockk<FulfilmentSite>()
+            every { mockFulfilmentSite.purchasePrice } returns 100
+
+            gameLedger.buyLocation(mockFulfilmentSite, mockPlayer)
+
+            assertThat(gameLedger.getPremisesOwnedBy(mockPlayer).size).isEqualTo(1)
+            assertThat(gameLedger.getPremisesOwnedBy(mockPlayer)).isEqualTo(listOf(mockFulfilmentSite))
+        }
+
+        it("should return list of 2 Locations owned by player") {
+            val gameLedger = GameLedger()
+            val mockPlayer = mockk<Player>()
+
+            val mockFulfilmentSite = mockk<FulfilmentSite>()
+            every { mockFulfilmentSite.purchasePrice } returns 100
+
+            val mockRetailSite = mockk<RetailSite>()
+            every { mockRetailSite.purchasePrice } returns 150
+
+            gameLedger.buyLocation(mockFulfilmentSite, mockPlayer)
+            gameLedger.buyLocation(mockRetailSite, mockPlayer)
+
+            assertThat(gameLedger.getPremisesOwnedBy(mockPlayer).size).isEqualTo(2)
+            assertThat(gameLedger.getPremisesOwnedBy(mockPlayer)).isEqualTo(listOf(mockFulfilmentSite, mockRetailSite))
         }
     }
 })
