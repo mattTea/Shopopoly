@@ -6,8 +6,8 @@ internal class GameLedger {
     fun transferStartingBalance(amount: Int, player: Player) {
         entries.add(Entry(
             amount = amount,
-            from = "Bank",
-            to = player.name,
+            from = Bank,
+            to = player,
             reason = "Starting balance transfer"
         ))
     }
@@ -15,8 +15,8 @@ internal class GameLedger {
     fun payAward(location: Location, player: Player) {
         entries.add(Entry(
             amount = location.visitorFeeOrAward,
-            from = "Bank",
-            to = player.name,
+            from = Bank,
+            to = player,
             reason = "Award fee"
         ))
     }
@@ -24,8 +24,8 @@ internal class GameLedger {
     fun payVisitorFee(location: Location, locationOwner: Player, rentPayer: Player) {
         entries.add(Entry(
             amount = location.visitorFeeOrAward,
-            from = rentPayer.name,
-            to = locationOwner.name, // owner could be a property of the location in future
+            from = rentPayer,
+            to = locationOwner,
             reason = "Visitor payment"
         ))
     }
@@ -33,8 +33,8 @@ internal class GameLedger {
     fun buyLocation(location: Location, buyer: Player) {
         entries.add(Entry(
             amount = location.purchasePrice,
-            from = buyer.name,
-            to = "Bank",
+            from = buyer,
+            to = Bank,
             reason = "Location purchase"
         ))
     }
@@ -42,8 +42,8 @@ internal class GameLedger {
     fun payBuildingFee(location: Location, buildingType: Store, builder: Player) {
         entries.add(Entry(
             amount = location.calculateCostToBuild(buildingType),
-            from = builder.name,
-            to = "Bank",
+            from = builder,
+            to = Bank,
             reason = "Fee to build $buildingType on retail site"
         ))
     }
@@ -51,7 +51,7 @@ internal class GameLedger {
 
 internal class Entry(
     val amount: Int,
-    val from: String, // to and from to be Player class in future (if I change "Bank" to a similar class)
-    val to: String,
+    val from: Player,
+    val to: Player,
     val reason: String
 )

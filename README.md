@@ -9,7 +9,7 @@ When a player runs out of money they leave the game and the winner is the last p
 
 ------
 
-This project will eventually cover the Shopopoly challenges [8](https://coding-challenges.jl-engineering.net/challenges/challenge-8/), [9](https://coding-challenges.jl-engineering.net/challenges/challenge-9/) and [12](https://coding-challenges.jl-engineering.net/challenges/challenge-12/) (and possibly number [10](https://coding-challenges.jl-engineering.net/challenges/challenge-10/), the solution to which can currently be found separately [here](https://github.com/mattTea/Shopopoly-Challenge10)).
+This project will cover the Shopopoly challenges [8](https://coding-challenges.jl-engineering.net/challenges/challenge-8/), [9](https://coding-challenges.jl-engineering.net/challenges/challenge-9/), [10](https://coding-challenges.jl-engineering.net/challenges/challenge-10/) (the solution to which can currently be found separately [here](https://github.com/mattTea/Shopopoly-Challenge10)), and [12](https://coding-challenges.jl-engineering.net/challenges/challenge-12/).
 
 ------
 
@@ -93,8 +93,6 @@ For `Players` create a simple type that contains a property that uniquely identi
 
 ## Challenge 10 - Shopopoly pt.3
 
-[Link to challenge](https://coding-challenges.jl-engineering.net/challenges/challenge-10/)
-
 Enrich the `Player` data type and create the `Dice` data type.
 
 Each `Player` data type will have two properties:
@@ -117,7 +115,7 @@ Please assume the board has at least 13 Locations on it so you can’t pass thro
 
 ------
 
-### Some tips
+#### Some tips
 
 You don’t need to have completed Challenge 8 or Challenge 9 to complete this challenge.
 The `Location` data type can just be a simple class or interface but you may need a way to detect whether a location is the location for the go square so you can work out when someone passes go.
@@ -126,7 +124,7 @@ You will probably need to create a mechanism for determining the sequence of eac
 
 ------
 
-## Problem breakdown
+#### Problem breakdown
 
 1. `Player` has name property
 2. `Player` has boardLocation property
@@ -135,5 +133,42 @@ You will probably need to create a mechanism for determining the sequence of eac
 5. Create `move` function on `Player` -> add `Dice` to `boardLocation` to create new `boardLocation`
 6. `boardLocation` to reset to 1 after passing 13
 7. `boardLocation` of 1 to be the 'Go' square
+
+------
+
+## Challenge 12 - Shopopoly pt.4
+
+Currently `GameLedger` contains a historical record of all financial records in a game of Shopopoly.
+Now create functions that will report on the status of each game by interrogating the `GameLedger`.
+
+------
+
+Create the following new functions...
+
+1. Calculate the balance for a player
+    - This should return either the total amount of money a player has (i.e. credit) or total amount of money owed by a player (i.e. debt)
+    - As before, monetary values must be greater or equal to zero
+    - If the player has zero return it as a credit amount.
+
+2. Determine the locations/buildings owned by a player
+    - Only return the last building added to a location as under the rules of shopopoly properties must be built sequentially from smallest to largest
+    - It should return an empty list if the player owns no locations
+
+3. Determine the owner of a location and the rent (if any) that needs to be paid
+    - If the player has built on the property, rent is only payable on the last thing built
+    - If the location has no owner return something to indicate that
+
+------
+
+See [challenge](https://coding-challenges.jl-engineering.net/challenges/challenge-12/) for optional extra functions to be created
+
+------
+
+#### Tips
+
+Like before, the GameLedger is dumb so doesn't contain logic to determine whether a transaction is valid before creating it.
+(For example, a transaction could be created that allows a player to buy a location that someone else already has.
+
+To deal with that kind of scenario only consider the last transaction when evaluating the status of a location.
 
 ------

@@ -1,7 +1,7 @@
 package shopopoly
 
-internal class Player(
-    val name: String,
+open class Player(
+    open val name: String,
     val boardLocation: Int = 1,
     val passedGo: Boolean = false
 ) {
@@ -21,3 +21,5 @@ internal class Player(
         )
     }
 }
+
+object Bank : Player(name = "Bank")

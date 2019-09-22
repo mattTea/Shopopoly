@@ -27,8 +27,8 @@ object GameLedgerTest : Spek({
         }
 
         it("should record transfer of starting balance from 'Bank' to player 'Matt'") {
-            assertThat(gameLedger.entries[0].from).isEqualTo("Bank")
-            assertThat(gameLedger.entries[0].to).isEqualTo(player.name)
+            assertThat(gameLedger.entries[0].from).isEqualTo(Bank)
+            assertThat(gameLedger.entries[0].to).isEqualTo(player)
         }
     }
 
@@ -54,8 +54,8 @@ object GameLedgerTest : Spek({
         }
 
         it("should record award from 'Bank' to player 'Matt'") {
-            assertThat(gameLedger.entries[0].from).isEqualTo("Bank")
-            assertThat(gameLedger.entries[0].to).isEqualTo(player.name)
+            assertThat(gameLedger.entries[0].from).isEqualTo(Bank)
+            assertThat(gameLedger.entries[0].to).isEqualTo(player)
         }
     }
 
@@ -84,8 +84,8 @@ object GameLedgerTest : Spek({
         }
 
         it("should record fee paid by 'Karsten' to 'Katie'") {
-            assertThat(gameLedger.entries[0].from).isEqualTo(playerPayingFee.name)
-            assertThat(gameLedger.entries[0].to).isEqualTo(playerReceivingFee.name)
+            assertThat(gameLedger.entries[0].from).isEqualTo(playerPayingFee)
+            assertThat(gameLedger.entries[0].to).isEqualTo(playerReceivingFee)
         }
     }
 
@@ -111,8 +111,8 @@ object GameLedgerTest : Spek({
         }
 
         it("should record fee paid by buyer to 'Bank'") {
-            assertThat(gameLedger.entries[0].from).isEqualTo(buyer.name)
-            assertThat(gameLedger.entries[0].to).isEqualTo("Bank")
+            assertThat(gameLedger.entries[0].from).isEqualTo(buyer)
+            assertThat(gameLedger.entries[0].to).isEqualTo(Bank)
         }
     }
 
