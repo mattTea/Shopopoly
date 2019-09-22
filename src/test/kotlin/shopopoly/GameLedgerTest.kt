@@ -2,6 +2,7 @@ package shopopoly
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import assertk.assertions.isInstanceOf
 import io.mockk.every
 import io.mockk.mockk
 import org.spekframework.spek2.Spek
@@ -137,5 +138,63 @@ object GameLedgerTest : Spek({
             assertThat(gameLedger.entries[0].amount).isEqualTo(buildingFee)
             assertThat(gameLedger.entries[0].reason).isEqualTo("Fee to build $mockMiniStore on retail site")
         }
+    }
+
+    describe("calculatePlayerBalance()") {
+        context("when player balance is positive") {
+
+            val gameLedger = GameLedger()
+            val startingBalance = 1000
+            val passGoAward = 100
+
+            val mockGo = mockk<Go>()
+            every { mockGo.visitorFeeOrAward } returns passGoAward
+
+            val player = mockk<Player>()
+
+            gameLedger.transferStartingBalance(startingBalance, player)
+            gameLedger.payAward(mockGo, player)
+
+            it("should return player in credit for 2 positive entries in GameLedger") {
+                assertThat(gameLedger.calculatePlayerBalance(player)).isInstanceOf(Credit::class.java)
+            }
+
+            it("should return player total credit amount for 2 positive entries in GameLedger") {
+                assertThat(gameLedger.calculatePlayerBalance(player).amount).isEqualTo(startingBalance + passGoAward)
+            }
+        }
+
+        context("when player balance is negative") {
+
+            val gameLedger = GameLedger()
+            val visitFulfilmentSiteFee = 20
+            val purchaseFulfilmentSitePrice = 100
+
+            val mockFulfilmentSite = mockk<FulfilmentSite>()
+            every { mockFulfilmentSite.visitorFeeOrAward } returns visitFulfilmentSiteFee
+            every { mockFulfilmentSite.purchasePrice } returns purchaseFulfilmentSitePrice
+
+            val mockPlayer1 = mockk<Player>()
+            val mockPlayer2 = mockk<Player>()
+
+            gameLedger.payVisitorFee(
+                location = mockFulfilmentSite,
+                locationOwner = mockPlayer2,
+                feePayer = mockPlayer1
+            )
+            gameLedger.buyLocation(
+                location = mockFulfilmentSite,
+                buyer = mockPlayer1
+            )
+
+            it("should return player in debt for a negative total entry in GameLedger") {
+                assertThat(gameLedger.calculatePlayerBalance(mockPlayer1)).isInstanceOf(Debt::class.java)
+            }
+
+            it("should return player total debt amount for negative total entries in GameLedger") {
+                assertThat(gameLedger.calculatePlayerBalance(mockPlayer1).amount).isEqualTo(visitFulfilmentSiteFee + purchaseFulfilmentSitePrice)
+            }
+        }
+
     }
 })
