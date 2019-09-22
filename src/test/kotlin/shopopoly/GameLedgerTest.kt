@@ -150,17 +150,17 @@ object GameLedgerTest : Spek({
             val mockGo = mockk<Go>()
             every { mockGo.visitorFeeOrAward } returns passGoAward
 
-            val player = mockk<Player>()
+            val mockPlayer = mockk<Player>()
 
-            gameLedger.transferStartingBalance(startingBalance, player)
-            gameLedger.payAward(mockGo, player)
+            gameLedger.transferStartingBalance(startingBalance, mockPlayer)
+            gameLedger.payAward(mockGo, mockPlayer)
 
             it("should return player in credit for 2 positive entries in GameLedger") {
-                assertThat(gameLedger.calculatePlayerBalance(player)).isInstanceOf(Credit::class.java)
+                assertThat(gameLedger.calculatePlayerBalance(mockPlayer)).isInstanceOf(Credit::class.java)
             }
 
             it("should return player total credit amount for 2 positive entries in GameLedger") {
-                assertThat(gameLedger.calculatePlayerBalance(player).amount).isEqualTo(startingBalance + passGoAward)
+                assertThat(gameLedger.calculatePlayerBalance(mockPlayer).amount).isEqualTo(startingBalance + passGoAward)
             }
         }
 
@@ -182,6 +182,7 @@ object GameLedgerTest : Spek({
                 locationOwner = mockPlayer2,
                 feePayer = mockPlayer1
             )
+
             gameLedger.buyLocation(
                 location = mockFulfilmentSite,
                 buyer = mockPlayer1
@@ -196,5 +197,17 @@ object GameLedgerTest : Spek({
             }
         }
 
+        context("when player balance is 0") {
+            val gameLedger = GameLedger()
+            val mockPlayer = mockk<Player>()
+
+            it("should return player in credit for 0 balance") {
+                assertThat(gameLedger.calculatePlayerBalance(mockPlayer)).isInstanceOf(Credit::class.java)
+            }
+
+            it("should return player credit amount of 0") {
+                assertThat(gameLedger.calculatePlayerBalance(mockPlayer).amount).isEqualTo(0)
+            }
+        }
     }
 })
