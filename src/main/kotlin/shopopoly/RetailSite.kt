@@ -6,9 +6,8 @@ class RetailSite(
     override val costToBuildMinistore: Int,
     override val costToBuildSupermarket: Int,
     override val costToBuildMegastore: Int,
-    override val visitorFeeOrAward: Int,
-    override var rent: Rent = Rent.UNDEVELOPED,
-    override var owningGroup: String = "Unattached",
+    override var visitorFeeOrAward: Int = Store.UNDEVELOPED.amount,
+    override var owner: String = "Unattached",
     override var store: Store = Store.UNDEVELOPED
 ) : Location() {
 
@@ -21,22 +20,15 @@ class RetailSite(
         }
     }
 
-    override fun setStoreType(storeType: Store) {
+    override fun setStoreTypeAndVisitorFee(storeType: Store) {
         this.store = storeType
+        this.visitorFeeOrAward = storeType.amount
     }
 }
 
-// TODO poss turn the rent amounts into a method to calculate (and add `rentalCostForMinistore`, etc parameters) similar to Store class
-enum class Rent(val amount: Int) {
+enum class Store(val amount: Int) {
     UNDEVELOPED(10),
     MINISTORE(20),
     SUPERMARKET(30),
     MEGASTORE(50)
-}
-
-enum class Store {
-    UNDEVELOPED,
-    MINISTORE,
-    SUPERMARKET,
-    MEGASTORE
 }

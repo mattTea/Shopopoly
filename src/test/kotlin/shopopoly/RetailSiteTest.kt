@@ -2,7 +2,6 @@ package shopopoly
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import io.mockk.every
 import io.mockk.mockk
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
@@ -17,8 +16,7 @@ object RetailSiteTest : Spek({
                 purchasePrice = 125,
                 costToBuildMinistore = 50,
                 costToBuildSupermarket = 100,
-                costToBuildMegastore = 150,
-                visitorFeeOrAward = 25
+                costToBuildMegastore = 150
             )
 
             it("should have a name of 'John's shop'") {
@@ -41,17 +39,16 @@ object RetailSiteTest : Spek({
                 assertThat(retailSite.calculateCostToBuild(Store.MEGASTORE)).isEqualTo(150)
             }
 
-            it("should cost £25 to visit the site") {
-                assertThat(retailSite.visitorFeeOrAward).isEqualTo(25)
+            it("should cost £10 to visit the site") {
+                assertThat(retailSite.visitorFeeOrAward).isEqualTo(10)
             }
 
             it("should cost £10 to rent the undeveloped site by default") {
-                assertThat(retailSite.rent).isEqualTo(Rent.UNDEVELOPED)
-                assertThat(retailSite.rent.amount).isEqualTo(10)
+                assertThat(retailSite.visitorFeeOrAward).isEqualTo(Store.UNDEVELOPED.amount)
             }
 
             it("should be owned by 'Unattached' by default") {
-                assertThat(retailSite.owningGroup).isEqualTo("Unattached")
+                assertThat(retailSite.owner).isEqualTo("Unattached")
             }
         }
 
@@ -62,16 +59,19 @@ object RetailSiteTest : Spek({
                 purchasePrice = 125,
                 costToBuildMinistore = 50,
                 costToBuildSupermarket = 100,
-                costToBuildMegastore = 150,
-                visitorFeeOrAward = 25
+                costToBuildMegastore = 150
             )
 
             val mockPlayer = mockk<Player>()
 
-            it("should change store type to MINISTORE when ministore is built") {
-                retailSite.setStoreType(Store.MINISTORE)
+            retailSite.setStoreTypeAndVisitorFee(Store.MINISTORE)
 
+            it("should change store type to MINISTORE when ministore is built") {
                 assertThat(retailSite.store).isEqualTo(Store.MINISTORE)
+            }
+
+            it("should change visitorFeeOrAward to £25 when ministore is built") {
+                assertThat(retailSite.visitorFeeOrAward).isEqualTo(Store.MINISTORE.amount)
             }
         }
     }

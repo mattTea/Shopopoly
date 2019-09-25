@@ -51,7 +51,7 @@ internal class GameLedger {
     }
 
     fun payBuildingFee(location: Location, buildingType: Store, builder: Player) {
-        location.setStoreType(buildingType)
+        location.setStoreTypeAndVisitorFee(buildingType)
 
         entries.add(
             Entry(

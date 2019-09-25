@@ -125,7 +125,7 @@ object GameLedgerTest : Spek({
         val retailSite = mockk<RetailSite>()
         val mockMiniStore = mockk<Store>()
         every { retailSite.calculateCostToBuild(mockMiniStore) } returns buildingFee
-        every { retailSite.setStoreType(mockMiniStore) } returns Unit
+        every { retailSite.setStoreTypeAndVisitorFee(mockMiniStore) } returns Unit
 
         gameLedger.payBuildingFee(retailSite, mockMiniStore, player)
 

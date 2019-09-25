@@ -13,8 +13,7 @@ object LocationTest : Spek({
             costToBuildSupermarket = 400,
             costToBuildMegastore = 500,
             visitorFeeOrAward = 50,
-            rent = Rent.SUPERMARKET,
-            owningGroup = "mattTea Corp"
+            owner = "mattTea Corp"
         )
 
         it("should have purchasePrice of £200") {
@@ -37,12 +36,8 @@ object LocationTest : Spek({
             assertThat(location.visitorFeeOrAward).isEqualTo(50)
         }
 
-        it("should have rent of £30") {
-            assertThat(location.rent.amount).isEqualTo(30)
-        }
-
         it("should have owningGroup of mattTea Corp") {
-            assertThat(location.owningGroup).isEqualTo("mattTea Corp")
+            assertThat(location.owner).isEqualTo("mattTea Corp")
         }
     }
 })

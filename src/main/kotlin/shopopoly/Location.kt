@@ -7,13 +7,12 @@ open class Location(
     open val costToBuildSupermarket: Int = 0,
     open val costToBuildMegastore: Int = 0,
     open val visitorFeeOrAward: Int = 0,
-    open var rent: Rent = Rent.UNDEVELOPED,
-    open var owningGroup: String = "Unattached",
-    open var store: Store = Store.UNDEVELOPED
+    open val owner: String = "Unattached",
+    open val store: Store = Store.UNDEVELOPED
 ) {
     open fun calculateCostToBuild(buildingType: Store): Int {
         return 0
     }
 
-    open fun setStoreType(buildingType: Store) {}
+    open fun setStoreTypeAndVisitorFee(buildingType: Store) {}
 }
