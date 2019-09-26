@@ -1,6 +1,7 @@
 package shopopoly
 
 import assertk.assertThat
+import assertk.assertions.isEmpty
 import assertk.assertions.isEqualTo
 import assertk.assertions.isInstanceOf
 import io.mockk.every
@@ -61,32 +62,47 @@ object GameLedgerTest : Spek({
     }
 
     describe("payVisitorFee()") {
-        val gameLedger = GameLedger()
-        val visitorFee = 35
+        context("when location has an owner") {
+            val gameLedger = GameLedger()
+            val mockOwner = mockk<Player>()
+            val visitorFee = 35
 
-        val mockWarehouse = mockk<FulfilmentSite>()
-        every { mockWarehouse.visitorFeeOrAward } returns visitorFee
+            val mockWarehouse = mockk<FulfilmentSite>()
+            every { mockWarehouse.visitorFeeOrAward } returns visitorFee
+            every { mockWarehouse.owner } returns mockOwner
 
-        val playerPayingFee = mockk<Player>()
-        every { playerPayingFee.name } returns "Karsten"
+            val playerPayingFee = mockk<Player>()
 
-        val playerReceivingFee = mockk<Player>()
-        every { playerReceivingFee.name } returns "Katie"
+            gameLedger.payVisitorFee(mockWarehouse, playerPayingFee)
 
-        gameLedger.payVisitorFee(mockWarehouse, playerReceivingFee, playerPayingFee)
+            it("should add entry to GameLedger") {
+                assertThat(gameLedger.entries.size).isEqualTo(1)
+            }
 
-        it("should add entry to GameLedger") {
-            assertThat(gameLedger.entries.size).isEqualTo(1)
+            it("should record payment of £35 visitor fee between players") {
+                assertThat(gameLedger.entries[0].amount).isEqualTo(visitorFee)
+                assertThat(gameLedger.entries[0].reason).isEqualTo("Visitor payment")
+            }
+
+            it("should record fee paid by visitor to owner") {
+                assertThat(gameLedger.entries[0].from).isEqualTo(playerPayingFee)
+                assertThat(gameLedger.entries[0].to).isEqualTo(mockOwner)
+            }
         }
 
-        it("should record payment of £35 visitor fee between players") {
-            assertThat(gameLedger.entries[0].amount).isEqualTo(visitorFee)
-            assertThat(gameLedger.entries[0].reason).isEqualTo("Visitor payment")
-        }
+        context("when location has no owner") {
+            val gameLedger = GameLedger()
+            val visitorFee = 35
 
-        it("should record fee paid by 'Karsten' to 'Katie'") {
-            assertThat(gameLedger.entries[0].from).isEqualTo(playerPayingFee)
-            assertThat(gameLedger.entries[0].to).isEqualTo(playerReceivingFee)
+            val mockWarehouse = mockk<FulfilmentSite>()
+            every { mockWarehouse.visitorFeeOrAward } returns visitorFee
+            every { mockWarehouse.owner } returns null
+
+            val playerPayingFee = mockk<Player>()
+
+            gameLedger.payVisitorFee(mockWarehouse, playerPayingFee)
+
+            assertThat(gameLedger.entries).isEmpty()
         }
     }
 
@@ -168,17 +184,18 @@ object GameLedgerTest : Spek({
             val gameLedger = GameLedger()
             val visitFulfilmentSiteFee = 20
             val purchaseFulfilmentSitePrice = 100
+            val mockOwner = mockk<Player>()
 
             val mockFulfilmentSite = mockk<FulfilmentSite>()
             every { mockFulfilmentSite.visitorFeeOrAward } returns visitFulfilmentSiteFee
             every { mockFulfilmentSite.purchasePrice } returns purchaseFulfilmentSitePrice
+            every { mockFulfilmentSite.owner } returns mockOwner
 
             val mockPlayer1 = mockk<Player>()
             val mockPlayer2 = mockk<Player>()
 
             gameLedger.payVisitorFee(
                 location = mockFulfilmentSite,
-                locationOwner = mockPlayer2,
                 feePayer = mockPlayer1
             )
 
@@ -245,6 +262,28 @@ object GameLedgerTest : Spek({
 
             assertThat(gameLedger.getPremisesOwnedBy(mockPlayer).size).isEqualTo(2)
             assertThat(gameLedger.getPremisesOwnedBy(mockPlayer)).isEqualTo(listOf(mockFulfilmentSite, mockRetailSite))
+        }
+    }
+
+    describe("getVisitorFeesPaid()") {
+        val gameLedger = GameLedger()
+        val feesPaid = 125
+        val mockPlayerOwner = mockk<Player>()
+        val mockPlayerVisitor = mockk<Player>()
+
+        val mockRetailSite = mockk<RetailSite>()
+        every { mockRetailSite.store } returns Store.SUPERMARKET
+        every { mockRetailSite.owner } returns mockPlayerOwner
+        every { mockRetailSite.visitorFeeOrAward } returns feesPaid
+
+        gameLedger.payVisitorFee(mockRetailSite, mockPlayerVisitor)
+
+        it("should return location owner") {
+            assertThat(gameLedger.getOwnerAndFeesPaid(mockRetailSite).first).isEqualTo(mockPlayerOwner)
+        }
+
+        it("should return total visitor fees paid to location owner") {
+            assertThat(gameLedger.getOwnerAndFeesPaid(mockRetailSite).second).isEqualTo(feesPaid)
         }
     }
 })

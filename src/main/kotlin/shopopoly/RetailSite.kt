@@ -7,7 +7,7 @@ class RetailSite(
     override val costToBuildSupermarket: Int,
     override val costToBuildMegastore: Int,
     override var visitorFeeOrAward: Int = Store.UNDEVELOPED.amount,
-    override var owner: String = "Unattached",
+    override var owner: Player? = null,
     override var store: Store = Store.UNDEVELOPED
 ) : Location() {
 

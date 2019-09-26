@@ -7,7 +7,7 @@ open class Location(
     open val costToBuildSupermarket: Int = 0,
     open val costToBuildMegastore: Int = 0,
     open val visitorFeeOrAward: Int = 0,
-    open val owner: String = "Unattached",
+    open val owner: Player? = null,
     open val store: Store = Store.UNDEVELOPED
 ) {
     open fun calculateCostToBuild(buildingType: Store): Int {

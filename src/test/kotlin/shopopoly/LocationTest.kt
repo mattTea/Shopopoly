@@ -2,18 +2,21 @@ package shopopoly
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import io.mockk.mockk
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
 
 object LocationTest : Spek({
     describe("Location type") {
+        val mockPlayer = mockk<Player>()
+
         val location = Location(
             purchasePrice = 200,
             costToBuildMinistore = 300,
             costToBuildSupermarket = 400,
             costToBuildMegastore = 500,
             visitorFeeOrAward = 50,
-            owner = "mattTea Corp"
+            owner = mockPlayer
         )
 
         it("should have purchasePrice of £200") {
@@ -37,7 +40,7 @@ object LocationTest : Spek({
         }
 
         it("should have owningGroup of mattTea Corp") {
-            assertThat(location.owner).isEqualTo("mattTea Corp")
+            assertThat(location.owner).isEqualTo(mockPlayer)
         }
     }
 })

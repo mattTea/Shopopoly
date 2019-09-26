@@ -26,16 +26,18 @@ internal class GameLedger {
         )
     }
 
-    fun payVisitorFee(location: Location, locationOwner: Player, feePayer: Player) {
-        entries.add(
-            Entry(
-                amount = location.visitorFeeOrAward,
-                from = feePayer,
-                to = locationOwner,
-                reason = "Visitor payment",
-                location = location
+    fun payVisitorFee(location: Location, feePayer: Player) {
+        location.owner?.let {
+            entries.add(
+                Entry(
+                    amount = location.visitorFeeOrAward,
+                    from = feePayer,
+                    to = location.owner!!,
+                    reason = "Visitor payment",
+                    location = location
+                )
             )
-        )
+        }
     }
 
     fun buyLocation(location: Location, buyer: Player) {
@@ -81,6 +83,12 @@ internal class GameLedger {
         return entries
             .filter { it.from == player && it.reason == "Location purchase" }
             .map { it.location }
+    }
+
+    fun getOwnerAndFeesPaid(location: Location): Pair<Player, Int> {
+        val owner = entries.last { it.to == location.owner }.to
+        val feesPaid = entries.filter { it.location == location }.sumBy { it.amount }
+        return Pair(owner, feesPaid)
     }
 }
 

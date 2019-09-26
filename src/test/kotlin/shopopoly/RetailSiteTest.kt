@@ -47,8 +47,8 @@ object RetailSiteTest : Spek({
                 assertThat(retailSite.visitorFeeOrAward).isEqualTo(Store.UNDEVELOPED.amount)
             }
 
-            it("should be owned by 'Unattached' by default") {
-                assertThat(retailSite.owner).isEqualTo("Unattached")
+            it("should be owned by no-one by default") {
+                assertThat(retailSite.owner).isEqualTo(null)
             }
         }
 

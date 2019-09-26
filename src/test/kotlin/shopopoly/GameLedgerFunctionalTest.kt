@@ -17,6 +17,7 @@ object GameLedgerFunctionalTest : Spek ({
                 costToBuildMinistore = 50,
                 costToBuildSupermarket = 100,
                 costToBuildMegastore = 200,
+                owner = Bank,
                 visitorFeeOrAward = 10
             )
 
